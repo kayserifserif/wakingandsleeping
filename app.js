@@ -2,7 +2,8 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-var Twitter = require('twitter');
+const Twitter = require("Twitter");
+const got = require("got");
  
 var client = new Twitter({
 	consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -11,19 +12,63 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-searchstr = 'Good morning,Good night,Buenas dias,Buenas noches,صباح الخير,تصبح على خير'
-var stream = client.stream('statuses/filter', {track: searchstr});
-stream.on('data', function(event) {
-  if (event.user.location || event.geo || event.coordinates || event.place) {
-		console.log("event.user.location", event.user.location);
-		console.log("event.geo", event.geo);
-		console.log("event.coordinates", event.coordinates);
-		console.log("event.place", event.place);
-		console.log(event.text);
-		console.log();
+searchstr = "Good morning,Good night,Buenas dias,Buenas noches,صباح الخير,تصبح على خير"
+var stream = client.stream("statuses/filter", {track: searchstr});
+stream.on("data", function(event) {
+  if (event.user.location || event.coordinates || event.place) {
+		let coords = event.coordinates; // tweet coordinates
+		let place = event.place; // tweet place, returns bounding box of coords
+		let text = event.text;
+		let latlng = {};
+		if (coords) {
+			latlng["lng"] = coords[0];
+			latlng["lat"] = coords[1];
+			console.log("coords", latlng);
+			console.log(event.text);
+			console.log();
+		} else if (place) {
+			bbox = place.bounding_box.coordinates;
+			latlng["lng"] = (bbox[0] + bbox[2]) * 0.5;
+			latlng["lat"] = (bbox[1] + bbox[3]) * 0.5;
+			console.log("place", latlng);
+			console.log(event.text);
+			console.log();
+		} else {
+			let userloc = event.user.location;
+			if (userloc.includes(".com")) {
+				console.log("No results found for:", userloc);
+			} else {
+				// get coords with mapquestapi
+				(async () => {
+					try {
+						let mapquestapi = "http://www.mapquestapi.com/geocoding/v1/address"
+						const response = await got(mapquestapi, {
+							searchParams: {
+								key: process.env.MAPQUEST_KEY,
+								location: userloc
+							},
+							responseType: "json"
+						});
+						let firstresult = response.body.results[0].locations[0];
+						let gq = firstresult.geocodeQuality;
+						if (gq === "CITY" || gq === "STATE" || gq === "COUNTRY") {
+							// latlng = firstresult.latLng;
+							latlng["lng"] = firstresult.latLng["lng"];
+							latlng["lat"] = firstresult.latLng["lat"];
+							console.log("location", userloc, latlng);	
+						} else {
+							console.log("No results found for:", userloc);
+						}
+					} catch (error) {
+						console.log("No results found for:", userloc);
+						throw error;
+					}
+				})();
+			}
+		}
   }
 }); 
-stream.on('error', function(error) {
+stream.on("error", function(error) {
   throw error;
 });
 
