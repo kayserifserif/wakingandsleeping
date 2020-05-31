@@ -13,20 +13,28 @@ The Twitter API lets us access data as developers through the use of these keys 
 1. Create a [Twitter Developer](https://developer.twitter.com/en/apply-for-access) account.
 2. Create a new [app](https://developer.twitter.com/en/apps). You can call it whatever you want; I called mine "wakingandsleeping", from where you'll copy your own keys and tokens later.
 
-## Mapquest
+## MapQuest
 Same idea as Twitter, but more straightforward.
-1. Head over to [Mapquest](https://developer.mapquest.com/plan_purchase/steps/business_edition/business_edition_free/register) to create an account if you don't have one already.
+1. Head over to [MapQuest](https://developer.mapquest.com/plan_purchase/steps/business_edition/business_edition_free/register) to create an account if you don't have one already.
 2. Click into [your keys](https://developer.mapquest.com/user/me/apps) and continue on to the final section.
 
 ## Development environment
 1. Install [NPM](https://www.npmjs.com/) and [Node](https://nodejs.org/en/).
-2. In the project folder, install the required Node modules:
+2. In the project folder, install the required Node modules by typing this into your command line:
 ```bash
 npm install
 ```
-3. In your project files, make a duplicate of the ".env.example" file and name this new file ".env". Paste in the four keys/tokens from Twitter and the one key from Mapquest.
+3. In your project files, make a duplicate of the ".env.example" file and name this new file ".env". Paste in the four keys/tokens from Twitter and the one key from MapQuest.
 
 # Run
 ```bash
 npm start
 ```
+
+# Acknowledgements
+This project uses:
+* [Node](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/)
+* [Twitter API](https://developer.twitter.com/)
+* [MapQuest API](https://developer.mapquest.com/)
+* [Leaflet](https://leafletjs.com/)
+* [Mapbox](https://www.mapbox.com/)
