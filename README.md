@@ -2,9 +2,15 @@
 
 "Good morning" and "good night" tweets, mapped.
 
-**A bit of background**
+Contents:
+1. [Background](#background)
+2. [Development](#development)
+3. [Acknowledgements](#acknowledgements)
+4. [Improvements](#improvements)
 
-Created during this intensely virtual, remote, and global time, this project is a reflection on world interconnectedness and our daily waves and flares of activity and wakedness across the globe. The hope is that you could open the webpage at any time during your day/night and see where in the world people are waking up and going to sleep. Inspired largely by Lin-Manuel Miranda's series of "gmorning, gnight" tweets and his book with Jonny Sun, [Gmorning, Gnight!: Little Pep Talks for Me & You](https://bookshop.org/books/gmorning-gnight-little-pep-talks-for-me-you/9781984854278) :)
+## Background
+
+Created during an intensely virtual, remote, and global time, this project is a reflection on world interconnectedness and our daily waves and flares of activity and wakedness across the globe. The hope is that you could open the webpage at any time during your day/night and see where in the world people are waking up and going to sleep. Inspired largely by Lin-Manuel Miranda's series of "gmorning, gnight" tweets and his book with Jonny Sun, [Gmorning, Gnight!: Little Pep Talks for Me & You](https://bookshop.org/books/gmorning-gnight-little-pep-talks-for-me-you/9781984854278) :)
 
 **On geotagging**
 
@@ -40,7 +46,7 @@ Twitter matches a tweet as long as the words in one of the key phrases exists in
 
 ---
 
-# Setup
+## Development
 
 Firstly, clone this repo and navigate into it, then do some setting up on a couple APIs and in Node:
 
@@ -65,15 +71,20 @@ npm install
 ```
 3. In your project files, make a duplicate of the ".env.example" file and name this new file ".env". Paste in the four keys/tokens from Twitter and the one key from MapQuest.
 
-# Run
+**Running the app**
+
+In your command line:
 ```bash
 npm start
 ```
 
-# Acknowledgements
+## Acknowledgements
 This project uses:
-* [Node](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/)
-* [Twitter API](https://developer.twitter.com/)
-* [MapQuest API](https://developer.mapquest.com/)
-* [Leaflet](https://leafletjs.com/)
-* [Mapbox](https://www.mapbox.com/) *(currently not in use due to me messing up the API rate limit whoops!!)*
+- [Node](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/)
+- [Twitter API](https://developer.twitter.com/)
+- [MapQuest API](https://developer.mapquest.com/)
+- [Leaflet](https://leafletjs.com/)
+- [Mapbox](https://www.mapbox.com/) *(currently not in use due to me messing up the API rate limit whoops!!)*
+
+## Improvements
+- Replace yellow/blue circles with different icons for accessibility
