@@ -1,5 +1,7 @@
 extends layout
 
 block content
+  // Non-space separated languages, such as CJK are currently unsupported.
+  // Exact matching is not supported (e.g. "good night" might match with "last night was good").
   div(id="mymap")
   script(src="/js/scripts.js")
