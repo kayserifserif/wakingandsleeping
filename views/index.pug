@@ -1,7 +1,12 @@
 extends layout
 
 block content
-  //- h1= title
-  //- p Welcome to #{title}
-  div(id="mapid")
+  div(id="mymap")
   script(src="/js/scripts.js")
+  script(src="/socket.io/socket.io.js")
+  script.
+    var socket = io();
+    socket.on('tweet', function (tweet) {
+      console.log(tweet.latlng);
+      console.log(tweet.text);
+    });
