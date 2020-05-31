@@ -20,8 +20,8 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/{tiles
 
 var socket = io();
 socket.on('tweet', function (tweet) {
-  console.log(tweet.latlng);
   console.log(tweet.text);
+  console.log(tweet.latlng);
   console.log(tweet.eventtype);
 
   var eventcolor = (tweet.eventtype) ? "#F6BB42" : "#4A89DC"; // yellow and blue

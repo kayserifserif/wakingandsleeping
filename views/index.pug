@@ -1,7 +1,9 @@
 extends layout
 
 block content
-  // Non-space separated languages, such as CJK are currently unsupported.
-  // Exact matching is not supported (e.g. "good night" might match with "last night was good").
+  header(id="header")
+    h1 Waking and Sleeping
+    p &ldquo;Good morning&rdquo; and &ldquo;good night&rdquo; tweets, mapped.
+    p A project by #[a(href="https://whykatherine.github.io") Katherine Yang]&mdash;read more on the #[a(href="https://github.com/whykatherine/wakingandsleeping") GitHub] page!
   div(id="mymap")
   script(src="/js/scripts.js")

@@ -1,11 +1,28 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
 }
 
+#header {
+  padding: 0.8em;
+}
+
+#header h1,
+#header p {
+  display: inline;
+  font-size: 0.8em;
+  padding-right: 1em;
+}
+
 #mymap {
-  height: 100vh;
+  height: calc(100% - 0.8em * 4.4);
 }
 
 .leaflet-popup-content-wrapper {
