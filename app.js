@@ -59,8 +59,8 @@ server.listen(port);
 
 // twitter streaming
 
-const morning = ["Good morning", "Buenas dias", "صباح الخير"];
-const night = ["Good night", "Buenas noches", "تصبح على خير"];
+const morning = ["Good morning", "Buenas dias", "صباح الخير", "সুপ্রভাত", "शुभ प्रभात", "Доброе утро", "Bom Dia", "おはようございます", "Guten Morgen", "Sugeng enjang", "좋은 아침", "Bon matin", "Günaydın", "Chào buổi sáng", "శుభోదయం", "शुभ प्रभात", "காலை வணக்கம்", "Buongiorno", "صبح بخیر", "સુપ્રભાત", "Dzień dobry", "Доброго ранку", "സുപ്രഭാതം", "ಶುಭೋದಯ", "Buna dimineata", "Sabahınız xeyir", "Barka da safiya", "Goedemorgen", "E kaaro"];
+const night = ["Good night", "Buenas noches", "تصبح على خير", "শুভ রাত্রি", "शुभ रात्रि", "Доброй ночи", "Boa noite", "おやすみ", "Gute Nacht", "Sugeng dalu", "안녕히 주무세요", "Bonne nuit", "İyi geceler", "Chúc ngủ ngon", "శుభ రాత్రి", "शुभ रात्री", "இனிய இரவு", "Buona notte", "شب بخیر", "શુભ રાત્રી", "Dobranoc", "Надобраніч", "ശുഭ രാത്രി", "ಶುಭ ರಾತ್ರಿ", "Noapte buna", "gecəniz xeyir", "Good dare", "Goede nacht", "Kasun layọ o"];
 var T = new Twit({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -85,9 +85,8 @@ io.on("connect", (socket) => {
     if (allClients.length == 0) return;
     // exclude retweets
     if (tweet.retweeted || tweet.text.substring(0, 4) === "RT @") return;
-    // only look at tweets with an estimable place
-    // if (!tweet.user.location && !tweet.coordinates && !tweet.place) return;
-    if (!tweet.coordinates && !tweet.place) return;
+    // only look at geotagged tweets
+    if (!tweet.place) return;
 
     let text = tweet.text;
     let eventtype = 0; // 0 for night, 1 for morning
@@ -102,18 +101,18 @@ io.on("connect", (socket) => {
     let latlng = {};
 
     if (coords) {
-      latlng["lng"] = coords[0];
-      latlng["lat"] = coords[1];
-      console.log("coords", latlng);
+      latlng["lng"] = coords.coordinates[0];
+      latlng["lat"] = coords.coordinates[1];
       console.log(tweet.text);
+      console.log("coords", latlng);
       console.log();
       io.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
     } else if (place) {
       let bbox = place.bounding_box.coordinates[0];
       latlng["lng"] = (bbox[0][0] + bbox[2][0]) * 0.5;
       latlng["lat"] = (bbox[0][1] + bbox[2][1]) * 0.5;
-      console.log("place", latlng);
       console.log(tweet.text);
+      console.log("place", latlng);
       console.log();
       io.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
     }
