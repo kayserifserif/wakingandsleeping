@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
 const port = 3000;
 
 // twitter
-const Twitter = require("Twitter");
+const Twit = require("twit");
 // http
 const got = require("got");
 // express
@@ -59,33 +59,37 @@ server.listen(port);
 
 // twitter streaming
 
-// const morning = "Good morning,Buenas dias,صباح الخير"
-// const night = "Good night,Buenas noches,تصبح على خير"
 const morning = ["Good morning", "Buenas dias", "صباح الخير"];
 const night = ["Good night", "Buenas noches", "تصبح على خير"];
-var twitter = new Twitter({
- consumer_key: process.env.TWITTER_CONSUMER_KEY,
+var T = new Twit({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+  access_token: process.env.TWITTER_ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+  timeout_ms: 10*1000
 });
-// var stream = twitter.stream("statuses/filter", { track: morning + "," + night });
-var stream = twitter.stream("statuses/filter", { track: morning.join(",") + "," + night.join(",") });
 
 // socket.io communication
 
-io.on('connection', (socket) => {
+var stream = T.stream("statuses/filter", { track: morning.concat(night) });
+var allClients = []; // https://stackoverflow.com/a/17311682
+
+io.on("connect", (socket) => {
 
   console.log('a user connected');
+  allClients.push(socket.id);
 
-  stream.on("data", function(event) {
-    
+  stream.on("tweet", function(tweet) {
+
+    // no need to act if no clients are there
+    if (allClients.length == 0) return;
+    // exclude retweets
+    if (tweet.retweeted || tweet.text.substring(0, 4) === "RT @") return;
     // only look at tweets with an estimable place
-    if (!event.user.location && !event.coordinates && !event.place) {
-      return;
-    }
+    // if (!tweet.user.location && !tweet.coordinates && !tweet.place) return;
+    if (!tweet.coordinates && !tweet.place) return;
 
-    let text = event.text;
+    let text = tweet.text;
     let eventtype = 0; // 0 for night, 1 for morning
     for (var p of morning) {
       if (text.toLowerCase().includes(p.toLowerCase())) {
@@ -93,70 +97,78 @@ io.on('connection', (socket) => {
       }
     }
 
-    let coords = event.coordinates; // tweet coordinates
-    let place = event.place; // tweet place, returns bounding box of coords
+    let coords = tweet.coordinates; // tweet coordinates
+    let place = tweet.place; // tweet place, returns bounding box of coords
     let latlng = {};
 
     if (coords) {
       latlng["lng"] = coords[0];
       latlng["lat"] = coords[1];
       console.log("coords", latlng);
-      console.log(event.text);
+      console.log(tweet.text);
       console.log();
-      io.emit("tweet", {"latlng": latlng, "text": event.text, "eventtype": eventtype });
+      io.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
     } else if (place) {
-      bbox = place.bounding_box.coordinates[0];
+      let bbox = place.bounding_box.coordinates[0];
       latlng["lng"] = (bbox[0][0] + bbox[2][0]) * 0.5;
       latlng["lat"] = (bbox[0][1] + bbox[2][1]) * 0.5;
       console.log("place", latlng);
-      console.log(event.text);
+      console.log(tweet.text);
       console.log();
-      io.emit("tweet", {"latlng": latlng, "text": event.text, "eventtype": eventtype });
-    } else {
-
-      let userloc = event.user.location;
-
-      // try to detect non-place locations
-      if (userloc.includes(".com")) {
-        console.log("No results found for:", userloc);
-        return;
-      }
-
-      // try to get coords with mapquest api
-      (async () => {
-        try {
-          let mapquestapi = "http://www.mapquestapi.com/geocoding/v1/address"
-          const response = await got(mapquestapi, {
-            searchParams: {
-              key: process.env.MAPQUEST_KEY,
-              location: userloc
-            },
-            responseType: "json"
-          });
-          let firstresult = response.body.results[0].locations[0];
-          let gq = firstresult.geocodeQuality;
-          if (gq === "CITY" || gq === "STATE" || gq === "COUNTRY") {
-            latlng["lng"] = firstresult.latLng["lng"];
-            latlng["lat"] = firstresult.latLng["lat"];
-            console.log("location", userloc, latlng);
-            console.log(event.text);
-            console.log();
-            io.emit("tweet", {"latlng": latlng, "text": event.text, "eventtype": eventtype });
-          } else {
-            console.log("No results found for:", userloc);
-          }
-        } catch (error) {
-          console.log("No results found for:", userloc);
-          throw error;
-        }
-      })();
-
+      io.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
     }
+    // } else {
+
+    //   let userloc = tweet.user.location;
+
+    //   // try to detect non-place locations
+    //   if (userloc.includes(".com")) {
+    //     console.log("No results found for:", userloc);
+    //     return;
+    //   }
+
+    //   // try to get coords with mapquest api
+    //   (async () => {
+    //     try {
+    //       let mapquestapi = "http://www.mapquestapi.com/geocoding/v1/address"
+    //       const response = await got(mapquestapi, {
+    //         searchParams: {
+    //           key: process.env.MAPQUEST_KEY,
+    //           location: userloc
+    //         },
+    //         responseType: "json"
+    //       });
+    //       let firstresult = response.body.results[0].locations[0];
+    //       let gq = firstresult.geocodeQuality;
+    //       if (gq === "CITY" || gq === "STATE" || gq === "COUNTRY") {
+    //         latlng["lng"] = firstresult.latLng["lng"];
+    //         latlng["lat"] = firstresult.latLng["lat"];
+    //         console.log("location", userloc, latlng);
+    //         console.log(tweet.text);
+    //         console.log();
+    //         io.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
+    //       } else {
+    //         console.log("No results found for:", userloc);
+    //       }
+    //     } catch (error) {
+    //       console.log("No results found for:", userloc);
+    //       throw error;
+    //     }
+    //   })();
+
+    // }
 
   });
 
   stream.on("error", function(error) {
+    if (allClients.length == 0) return;
     throw error;
+  });
+
+  socket.on("disconnect", (reason) => {
+    console.log("a user disconnected");
+    var i = allClients.indexOf(socket.id);
+    allClients.splice(i, 1);
   });
 
 });

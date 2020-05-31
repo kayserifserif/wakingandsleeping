@@ -1,7 +1,8 @@
 {
   "name": "wakingandsleeping",
   "version": "1.0.0",
-  "description": "",
+  "description": "Tweets posted before going to bed or after waking up, mapped.",
+  "repository": "whykatherine/wakingandsleeping",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -19,6 +20,6 @@
     "path": "^0.12.7",
     "pug": "^3.0.0",
     "socket.io": "^2.3.0",
-    "twitter": "^1.7.1"
+    "twit": "^2.2.11"
   }
 }
