@@ -1,6 +1,6 @@
 # wakingandsleeping
 
-"Good morning" and "good night" tweets, mapped.
+"Good morning" and "good night" tweets, mapped in real-time.
 
 Contents:
 1. [Background](#background)
