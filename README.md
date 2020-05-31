@@ -42,7 +42,7 @@ Twitter matches a tweet as long as the words in one of the key phrases exists in
 
 # Setup
 
-Firstly, clone this repo and navigate into it, then do some setting up on Twitter and in Node:
+Firstly, clone this repo and navigate into it, then do some setting up on a couple APIs and in Node:
 
 **Twitter**
 
