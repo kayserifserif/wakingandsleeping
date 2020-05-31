@@ -59,8 +59,8 @@ server.listen(port);
 
 // twitter streaming
 
-const morning = ["Good morning", "Buenas dias", "صباح الخير", "সুপ্রভাত", "शुभ प्रभात", "Доброе утро", "Bom Dia", "おはようございます", "Guten Morgen", "Sugeng enjang", "좋은 아침", "Bon matin", "Günaydın", "Chào buổi sáng", "శుభోదయం", "शुभ प्रभात", "காலை வணக்கம்", "Buongiorno", "صبح بخیر", "સુપ્રભાત", "Dzień dobry", "Доброго ранку", "സുപ്രഭാതം", "ಶುಭೋದಯ", "Buna dimineata", "Sabahınız xeyir", "Barka da safiya", "Goedemorgen", "E kaaro"];
-const night = ["Good night", "Buenas noches", "تصبح على خير", "শুভ রাত্রি", "शुभ रात्रि", "Доброй ночи", "Boa noite", "おやすみ", "Gute Nacht", "Sugeng dalu", "안녕히 주무세요", "Bonne nuit", "İyi geceler", "Chúc ngủ ngon", "శుభ రాత్రి", "शुभ रात्री", "இனிய இரவு", "Buona notte", "شب بخیر", "શુભ રાત્રી", "Dobranoc", "Надобраніч", "ശുഭ രാത്രി", "ಶುಭ ರಾತ್ರಿ", "Noapte buna", "gecəniz xeyir", "Good dare", "Goede nacht", "Kasun layọ o"];
+const morning = ["Good morning", "Buenas dias", "صباح الخير", "সুপ্রভাত", "शुभ प्रभात", "Доброе утро", "Bom Dia", "おはようございます", "Guten Morgen", "Sugeng enjang", "좋은 아침", "Bon matin", "Günaydın", "Chào buổi sáng", "శుభోదయం", "शुभ प्रभात", "காலை வணக்கம்", "Buongiorno", "صبح بخیر", "સુપ્રભાત", "Dzień dobry", "Доброго ранку", "സുപ്രഭാതം", "ಶುಭೋದಯ"];
+const night = ["Good night", "Buenas noches", "تصبح على خير", "শুভ রাত্রি", "शुभ रात्रि", "Доброй ночи", "Boa noite", "おやすみ", "Gute Nacht", "Sugeng dalu", "안녕히 주무세요", "Bonne nuit", "İyi geceler", "Chúc ngủ ngon", "శుభ రాత్రి", "शुभ रात्री", "இனிய இரவு", "Buona notte", "شب بخیر", "શુભ રાત્રી", "Dobranoc", "Надобраніч", "ശുഭ രാത്രി", "ಶುಭ ರಾತ್ರಿ", "Noapte buna"];
 var T = new Twit({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
