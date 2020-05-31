@@ -4,4 +4,28 @@ html, body {
   height: 100%;
 }
 
-#mapid { height: 100vh; }
+#mymap {
+  height: 100vh;
+}
+
+.leaflet-popup-content-wrapper {
+  background: none;
+  color: #fff;
+  box-shadow: none;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  text-align: center;
+}
+
+.leaflet-popup-scrolled {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border: 0;
+}
+
+.leaflet-popup-tip-container {
+  display: none;
+}

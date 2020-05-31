@@ -59,15 +59,18 @@ server.listen(port);
 
 // twitter streaming
 
-const morning = "Good morning,Buenas dias,صباح الخير"
-const night = "Good night,Buenas noches,تصبح على خير"
+// const morning = "Good morning,Buenas dias,صباح الخير"
+// const night = "Good night,Buenas noches,تصبح على خير"
+const morning = ["Good morning", "Buenas dias", "صباح الخير"];
+const night = ["Good night", "Buenas noches", "تصبح على خير"];
 var twitter = new Twitter({
  consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
   access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
-var stream = twitter.stream("statuses/filter", { track: morning + "," + night });
+// var stream = twitter.stream("statuses/filter", { track: morning + "," + night });
+var stream = twitter.stream("statuses/filter", { track: morning.join(",") + "," + night.join(",") });
 
 // socket.io communication
 
@@ -82,9 +85,16 @@ io.on('connection', (socket) => {
       return;
     }
 
+    let text = event.text;
+    let eventtype = 0; // 0 for night, 1 for morning
+    for (var p of morning) {
+      if (text.toLowerCase().includes(p.toLowerCase())) {
+        eventtype = 1;
+      }
+    }
+
     let coords = event.coordinates; // tweet coordinates
     let place = event.place; // tweet place, returns bounding box of coords
-    let text = event.text;
     let latlng = {};
 
     if (coords) {
@@ -93,7 +103,7 @@ io.on('connection', (socket) => {
       console.log("coords", latlng);
       console.log(event.text);
       console.log();
-      io.emit("tweet", {"latlng": latlng, "text": event.text});
+      io.emit("tweet", {"latlng": latlng, "text": event.text, "eventtype": eventtype });
     } else if (place) {
       bbox = place.bounding_box.coordinates[0];
       latlng["lng"] = (bbox[0][0] + bbox[2][0]) * 0.5;
@@ -101,7 +111,7 @@ io.on('connection', (socket) => {
       console.log("place", latlng);
       console.log(event.text);
       console.log();
-      io.emit("tweet", {"latlng": latlng, "text": event.text});
+      io.emit("tweet", {"latlng": latlng, "text": event.text, "eventtype": eventtype });
     } else {
 
       let userloc = event.user.location;
@@ -112,7 +122,7 @@ io.on('connection', (socket) => {
         return;
       }
 
-      // get coords with mapquest api
+      // try to get coords with mapquest api
       (async () => {
         try {
           let mapquestapi = "http://www.mapquestapi.com/geocoding/v1/address"
@@ -126,13 +136,12 @@ io.on('connection', (socket) => {
           let firstresult = response.body.results[0].locations[0];
           let gq = firstresult.geocodeQuality;
           if (gq === "CITY" || gq === "STATE" || gq === "COUNTRY") {
-            // latlng = firstresult.latLng;
             latlng["lng"] = firstresult.latLng["lng"];
             latlng["lat"] = firstresult.latLng["lat"];
             console.log("location", userloc, latlng);
             console.log(event.text);
             console.log();
-            io.emit("tweet", {"latlng": latlng, "text": event.text});
+            io.emit("tweet", {"latlng": latlng, "text": event.text, "eventtype": eventtype });
           } else {
             console.log("No results found for:", userloc);
           }
@@ -143,7 +152,7 @@ io.on('connection', (socket) => {
       })();
 
     }
-    
+
   });
 
   stream.on("error", function(error) {
