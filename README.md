@@ -38,11 +38,13 @@ This project uses Twitter's Streaming API, with the "statuses/filter" endpoint. 
 
 Twitter matches a tweet as long as the words in one of the key phrases exists in the tweet, regardless of order. This means that a key phrase "good night" might match with a tweet posted in the morning that says, "last night was good", resulting in some confusing or self-contradicting points in the viz.
 
-**Resulting musings about Twitter**
+**Resulting musings**
 
 - By looking at geolocation, the project is inherently biased towards people who are using their phones to tweet—the GPS capability of the phone makes it much easier, and in fact, I don't know if you can geotag your tweet from your laptop?
 
 - I haven't looked too much into data/research for this, but Twitter seemed to me to have developed from a semi-private journal for one's everyday happenings into a constant deluge of a whole world's very-public-facing declarations. These simple "good morning"s and "good night"s are a different side of modern Twitter I don't experience much on my feed.
+
+- Unlike a lot of time-based visualisations with defined time periods that you can scrub through to see as much at once as you want to, working with real-time data means you can only see the data that's coming in right now, which can be not very much at all. Waiting for data to come to you is either frustratingly limiting or edifyingly calming.
 
 ---
 
