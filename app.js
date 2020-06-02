@@ -60,7 +60,10 @@ server.listen(port);
 // twitter streaming
 
 const morning = ["Good morning", "Buenas dias", "صباح الخير", "সুপ্রভাত", "शुभ प्रभात", "Доброе утро", "Bom Dia", "おはようございます", "Guten Morgen", "Sugeng enjang", "좋은 아침", "Bon matin", "Günaydın", "Chào buổi sáng", "శుభోదయం", "शुभ प्रभात", "காலை வணக்கம்", "Buongiorno", "صبح بخیر", "સુપ્રભાત", "Dzień dobry", "Доброго ранку", "സുപ്രഭാതം", "ಶುಭೋದಯ"];
+let morningre = new RegExp(morning.join("|"), "i")
 const night = ["Good night", "Buenas noches", "تصبح على خير", "শুভ রাত্রি", "शुभ रात्रि", "Доброй ночи", "Boa noite", "おやすみ", "Gute Nacht", "Sugeng dalu", "안녕히 주무세요", "Bonne nuit", "İyi geceler", "Chúc ngủ ngon", "శుభ రాత్రి", "शुभ रात्री", "இனிய இரவு", "Buona notte", "شب بخیر", "શુભ રાત્રી", "Dobranoc", "Надобраніч", "ശുഭ രാത്രി", "ಶುಭ ರಾತ್ರಿ", "Noapte buna"];
+let nightre = new RegExp(night.join("|"), "i")
+const morningnight = morning.concat(night);
 var T = new Twit({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -71,7 +74,7 @@ var T = new Twit({
 
 // socket.io communication
 
-var stream = T.stream("statuses/filter", { track: morning.concat(night) });
+var stream = T.stream("statuses/filter", { track: morningnight });
 var allClients = []; // https://stackoverflow.com/a/17311682
 
 io.on("connect", (socket) => {
@@ -87,14 +90,10 @@ io.on("connect", (socket) => {
     if (tweet.retweeted || tweet.text.substring(0, 4) === "RT @") return;
     // only look at geotagged tweets
     if (!tweet.place) return;
+    // api finds phrases in more than just the tweet text; exclude those
+    if (!morningre.test(tweet.text) && !nightre.test(tweet.text)) return;
 
-    let text = tweet.text;
-    let eventtype = 0; // 0 for night, 1 for morning
-    for (var p of morning) {
-      if (text.toLowerCase().includes(p.toLowerCase())) {
-        eventtype = 1;
-      }
-    }
+    let eventtype = (morningre.test(tweet.text)) ? 1 : 0; // 0 for night, 1 for morning
 
     let coords = tweet.coordinates; // tweet coordinates
     let place = tweet.place; // tweet place, returns bounding box of coords
@@ -106,7 +105,7 @@ io.on("connect", (socket) => {
       console.log(tweet.text);
       console.log("coords", latlng);
       console.log();
-      io.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
+      socket.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
     } else if (place) {
       let bbox = place.bounding_box.coordinates[0];
       latlng["lng"] = (bbox[0][0] + bbox[2][0]) * 0.5;
@@ -114,7 +113,7 @@ io.on("connect", (socket) => {
       console.log(tweet.text);
       console.log("place", latlng);
       console.log();
-      io.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
+      socket.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
     }
     // } else {
 
