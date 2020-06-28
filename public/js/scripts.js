@@ -33,7 +33,6 @@ socket.on('tweet', function (tweet) {
     fillOpacity: 1.0
   })
     .addTo(mymap)
-    // .bindPopup("Good morning good morning good morning alsdkfjlskfj dlag jalsdg alsd g", {
     .bindPopup(tweet.text, {
       maxWidth: 100,
       maxHeight: 18,
@@ -44,9 +43,9 @@ socket.on('tweet', function (tweet) {
       className: "popup"
     })
     .openPopup();
-  (async () => {
-    await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-    circle.togglePopup();
-    circle.remove();
-  })();
+  // (async () => {
+  //   await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+  //   circle.togglePopup();
+  //   circle.remove();
+  // })();
 });
