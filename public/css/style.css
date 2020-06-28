@@ -10,6 +10,10 @@ html, body {
   height: 100%;
 }
 
+body {
+  font-family: sans-serif;
+}
+
 #header {
   padding: 0.8em;
 }
@@ -34,6 +38,12 @@ html, body {
 .leaflet-popup-content {
   margin: 0;
   text-align: center;
+  /* width: 100px; */
+  /* height: 18px; */
+}
+
+.leaflet-popup:hover .leaflet-popup-content {
+  height: auto !important;
 }
 
 .leaflet-popup-scrolled {
@@ -41,6 +51,10 @@ html, body {
   white-space: nowrap;
   text-overflow: ellipsis;
   border: 0;
+}
+
+.leaflet-popup:hover .leaflet-popup-scrolled {
+  white-space: normal;
 }
 
 .leaflet-popup-tip-container {
