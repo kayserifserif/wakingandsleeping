@@ -12,21 +12,30 @@ html, body {
 
 body {
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
-#header {
+.header {
   padding: 0.8em;
 }
 
-#header h1,
-#header p {
+.header h1,
+.header p {
   display: inline;
   font-size: 0.8em;
   padding-right: 1em;
 }
 
+.container {
+  height: 100%;
+  position: relative;
+}
+
+/* MAP */
+
 #mymap {
-  height: calc(100% - 0.8em * 4.4);
+  height: 100%;
 }
 
 .leaflet-popup-content-wrapper {
@@ -38,8 +47,6 @@ body {
 .leaflet-popup-content {
   margin: 0;
   text-align: center;
-  /* width: 100px; */
-  /* height: 18px; */
 }
 
 .leaflet-popup:hover .leaflet-popup-content {
@@ -59,4 +66,71 @@ body {
 
 .leaflet-popup-tip-container {
   display: none;
+}
+
+/* TOGGLE */
+
+.toggle {
+  position: absolute;
+  top: 2em;
+  left: 2em;
+  width: 230px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(0,0,0,.5);
+  border-radius: 25px;
+  z-index: 400;
+}
+
+.toggle-radio {
+  display: none;
+}
+
+.toggle-icon::before {
+  display: block;
+  width: 1em;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  text-align: center;
+  color: #fff;
+}
+
+#ephemeral:checked ~ .toggle .toggle-icon::before {
+  content: "\f043";
+}
+
+#perpetual:checked ~ .toggle .toggle-icon::before {
+  content: "\f773";
+}
+
+.toggle-label {
+  cursor: pointer;
+  color: rgba(255,255,255,.6);
+  transition: all 0.2s ease;
+  padding: 1em;
+}
+
+#perpetual:checked ~ .toggle label[for="perpetual"] {
+  color: #fff;
+}
+
+#ephemeral:checked ~ .toggle label[for="ephemeral"] {
+  color: #fff;
+}
+
+/* ALERT */
+
+.alert {
+  position: absolute;
+  top: 5em;
+  left: 3em;
+  color: #fff;
+  opacity: 0;
+  z-index: 400;
+  transition: opacity 1s ease-in-out;
+}
+
+.alert.visible {
+  opacity: 1;
 }

@@ -1,4 +1,4 @@
-const publicToken = "pk.eyJ1IjoiYm9va3dvcm1naXJsOTEwIiwiYSI6ImNrYXR2ZXY5dzBma2EyeG40MmQ0ZW43eDgifQ.VnZgfo25UKyn7CiuzTQCkg";
+const token = "pk.eyJ1IjoiYm9va3dvcm1naXJsOTEwIiwiYSI6ImNrYXR2Z2o3azBrbWIyeHB0ZnJxa2Zqc3kifQ.8FZb1SBrTX55wr11JWNxKw";
 
 var mymap = L.map('mymap', {
   zoomControl: false,
@@ -14,19 +14,43 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/{tiles
   style_id: 'dark-v10',
   tilesize: 512,
   // zoomOffset: -1,
-  // default public token
-  accessToken: publicToken
+  accessToken: token
 }).addTo(mymap);
+
+let alert = document.getElementById("alert");
+let isPinsEphemeral;
+let toggleRadios = document.getElementsByClassName("toggle-radio");
+for (let toggleRadio of toggleRadios) {
+  if (toggleRadio.checked) {
+    isPinsEphemeral = (toggleRadio.value === "ephemeral");
+  }
+  toggleRadio.addEventListener("click", (event) => {
+    isPinsEphemeral = (toggleRadio.value === "ephemeral");
+    if (isPinsEphemeral) {
+      alert.textContent = "Tweets will appear and fade."
+      let pins = document.getElementsByClassName("leaflet-interactive");
+      for (let pin of pins) {
+        pin.remove();
+      }
+      let popups = document.getElementsByClassName("leaflet-popup");
+      for (let popup of popups) {
+        popup.remove();
+      }
+    } else {
+      alert.textContent = "Tweets will appear and stay."
+    }
+    alert.classList.add("visible");
+    setTimeout(() => { alert.classList.remove("visible"); }, 2000);
+  });
+}
 
 var socket = io();
 socket.on('tweet', function (tweet) {
-  console.log(tweet.text);
-  console.log(tweet.latlng);
-  console.log(tweet.eventtype);
+  // console.log(tweet.text);
+  // console.log(tweet.latlng);
+  // console.log(tweet.eventtype);
 
   var eventcolor = (tweet.eventtype) ? "#F6BB42" : "#4A89DC"; // yellow and blue
-  // var eventcolor = "#f6bb42";
-  // var circle = L.circle([51.508, -0.11], {
   var circle = L.circle([tweet.latlng["lat"], tweet.latlng["lng"]], {
     radius: 50000,
     color: eventcolor,
@@ -34,8 +58,8 @@ socket.on('tweet', function (tweet) {
   })
     .addTo(mymap)
     .bindPopup(tweet.text, {
-      maxWidth: 100,
-      maxHeight: 18,
+      maxWidth: 200,
+      maxHeight: 36,
       closeButton: false,
       autoClose: false,
       closeOnEscapeKey: false,
@@ -43,9 +67,11 @@ socket.on('tweet', function (tweet) {
       className: "popup"
     })
     .openPopup();
-  // (async () => {
-  //   await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-  //   circle.togglePopup();
-  //   circle.remove();
-  // })();
+  (async () => {
+    await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+    if (isPinsEphemeral) {
+      circle.togglePopup();
+      circle.remove();
+    }
+  })();
 });
