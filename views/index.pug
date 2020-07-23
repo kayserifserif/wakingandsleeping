@@ -1,21 +1,19 @@
 extends layout
 
 block content
-  header(class="header")
-    h1 Waking and Sleeping
-    p &ldquo;Good morning&rdquo; (yellow) and &ldquo;good night&rdquo; (blue) tweets, mapped in real-time.
-    p A project by #[a(href="https://whykatherine.github.io") Katherine Yang]&mdash;read more on the #[a(href="https://github.com/whykatherine/wakingandsleeping") GitHub] page!
 
   div(class="container" id="container")
     div(id="mymap")
-    //- toggle adapted from https://codepen.io/theawesomecoder61/pen/nigEq
-    div(class="pinsDuration")
-      input(type="radio" name="pinsDuration" id="perpetual" value="perpetual" class="toggle-radio")
-      input(type="radio" name="pinsDuration" id="ephemeral" value="ephemeral" class="toggle-radio" checked)
-      div(class="toggle")
-        label(for="perpetual" class="toggle-label") Perpetual
-        span(class="toggle-icon")
-        label(for="ephemeral" class="toggle-label") Ephemeral
-    p(class="alert" id="alert")
-
+    div(class="controls")
+      //- toggle adapted from https://codepen.io/theawesomecoder61/pen/nigEq
+      div(class="pinsDuration")
+        input(type="radio" name="pinsDuration" id="perpetual" value="perpetual" class="toggle-radio")
+        input(type="radio" name="pinsDuration" id="ephemeral" value="ephemeral" class="toggle-radio" checked)
+        div(class="toggle")
+          label(for="perpetual" class="toggle-label") Perpetual
+          span(class="toggle-icon")
+          label(for="ephemeral" class="toggle-label") Ephemeral
+      p(class="alert" id="alert")
+  
+  script(src="/js/suncalc.min.js")
   script(src="/js/scripts.js")

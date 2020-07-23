@@ -1,3 +1,12 @@
+:root {
+  /* https://blog.jim-nielsen.com/2019/generating-shades-of-color-using-css-variables/ */
+  --morning: #D9A232;
+  --morning-rgb: 217, 162, 50;
+  --night: #539AF9;
+  --night-rgb: 83, 154, 249;
+  --mid: #EA79B7;
+}
+
 *,
 *::before,
 *::after {
@@ -14,14 +23,30 @@ body {
   font-family: sans-serif;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.25;
+}
+
+a {
+  color: var(--mid);
+}
+
+.morning {
+  color: var(--morning);
+}
+
+.night {
+  color: var(--night);
 }
 
 .header {
   padding: 0.8em;
+  display: flex;
+  align-items: center;
 }
 
-.header h1,
-.header p {
+.header span {
   display: inline;
   font-size: 0.8em;
   padding-right: 1em;
@@ -32,6 +57,15 @@ body {
   position: relative;
 }
 
+.container-text {
+  max-width: 50em;
+  padding: 2em;
+}
+
+.lead {
+  font-size: 2em;
+}
+
 /* MAP */
 
 #mymap {
@@ -40,7 +74,8 @@ body {
 
 .leaflet-popup-content-wrapper {
   background: none;
-  color: #fff;
+  /* color: #fff; */
+  color: var(--text);
   box-shadow: none;
 }
 
@@ -68,19 +103,26 @@ body {
   display: none;
 }
 
+/* CONTROLS */
+
+.controls {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 2em;
+  z-index: 400;
+}
+
 /* TOGGLE */
 
 .toggle {
-  position: absolute;
-  top: 2em;
-  left: 2em;
-  width: 230px;
+  width: 15em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(0,0,0,.5);
+  /* background-color: rgba(255,255,255,.2); */
+  background-image: linear-gradient(to right bottom, #f6bb42, #ff8e6e, #ff77a9, #be7ed6, #4a89dc);
   border-radius: 25px;
-  z-index: 400;
 }
 
 .toggle-radio {
@@ -122,12 +164,9 @@ body {
 /* ALERT */
 
 .alert {
-  position: absolute;
-  top: 5em;
-  left: 3em;
-  color: #fff;
+  padding-left: 1em;
+  color: var(--text);
   opacity: 0;
-  z-index: 400;
   transition: opacity 1s ease-in-out;
 }
 
