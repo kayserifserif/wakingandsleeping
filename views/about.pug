@@ -1,0 +1,11 @@
+extends layout
+
+block content
+
+  div(class="container-text")
+    h1 Waking and Sleeping
+    p(class="lead") &ldquo;Good morning&rdquo; and &ldquo;good night&rdquo; tweets, mapped in real-time. A project by #[a(href="https://whykatherine.github.io") Katherine Yang]&mdash;read more on the #[a(href="https://github.com/whykatherine/wakingandsleeping") GitHub] page!
+    h2 About this project
+    p This project uses the Twitter API to get Tweets containing the phrases "good morning" or "good night", currently searching in 24 languages.
+    p Tweets will show up as pins with popup texts on the map, coloured yellow or blue depending on its type of greeting or farewell. To see more of the text, hover over the text on a computer or tap on the pin on a mobile device. To let the Tweets fade, choose "Ephemeral", and to let them stay, choose "Perpetual". If you don't see anything on the map, wait a little longer&mdash;it might be a little slower, depending on what time you're on it, as corresponding to the locations of the Twitter user base.
+    p The site asks for your location to determine if it's day or night where you are. It'll default to the latitude and longitude pair (0, 0) if you decline to give it. (That's #[a(href="https://en.wikipedia.org/wiki/Null_Island") Null Island], near the west African coast, if you're curious!)
