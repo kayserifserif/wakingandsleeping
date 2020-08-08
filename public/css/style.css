@@ -20,16 +20,41 @@ html, body {
 }
 
 body {
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
+  /* font-family: sans-serif; */
+  font-family: "Poppins";
+  /* display: flex; */
+  /* flex-direction: column; */
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.25;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: auto 100%;
+}
+  @media (min-width: 1000px) {
+    body {
+      grid-template-columns: 30% 70%;
+      grid-template-rows: 100%;
+    }
+  }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "DM Serif Display";
+  font-weight: 400;
 }
 
 a {
   color: var(--mid);
+}
+
+.title {
+  font-size: 3em;
+  line-height: 1;
 }
 
 .morning {
@@ -41,21 +66,64 @@ a {
 }
 
 .header {
-  padding: 0.8em;
+  padding: 2em;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
-.header span {
+.nav ul {
+  display: flex;
+  padding: 0;
+  justify-content: center;
+  gap: .5em;
+}
+
+.nav li {
+  list-style-type: none;
+}
+
+/* .header span {
   display: inline;
   font-size: 0.8em;
   padding-right: 1em;
+} */
+
+.duration {
+  text-align: center;
+  margin: 2em 0;
+}
+
+.counter {
+  font-size: 2em;
+  font-family: "DM Serif Display", serif;
+  text-align: right;
+  line-height: .8;
+  display: inline-block;
+  margin: .5em 0;
+}
+
+.counter:last-of-type {
+  margin-top: .4em;
 }
 
 .container {
   height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  grid-column: 1;
+  grid-row: 2;
 }
+  @media (min-width: 1000px) {
+    .container {
+      grid-column: 2;
+      grid-row: 1;
+      justify-content: center;
+    }
+  }
 
 .container-text {
   max-width: 50em;
@@ -116,12 +184,12 @@ a {
 /* TOGGLE */
 
 .toggle {
-  width: 15em;
+  width: max-content;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   /* background-color: rgba(255,255,255,.2); */
-  background-image: linear-gradient(to right bottom, #f6bb42, #ff8e6e, #ff77a9, #be7ed6, #4a89dc);
+  background-image: linear-gradient(to right, #f6bb42, #ff8e6e, #ff77a9, #be7ed6, #4a89dc);
   border-radius: 25px;
 }
 
@@ -164,9 +232,13 @@ a {
 /* ALERT */
 
 .alert {
-  padding-left: 1em;
-  color: var(--text);
-  opacity: 0;
+  width: max-content;
+  margin-left: .75em;
+  padding: .25em;
+  background-color: rgba(0,0,0,.35);
+  color: #fff;
+  border-radius: 5px;
+  /* opacity: 0; */
   transition: opacity 1s ease-in-out;
 }
 

@@ -2,7 +2,15 @@ extends layout
 
 block content
 
-  div(class="container" id="container")
+  header(class="header")
+    h1(class="title") Waking and Sleeping
+    nav(class="nav")
+      ul
+        li: a(href="/") Map
+        li: a(href="/about") About
+    p(id="duration" class="duration") The world has been wished a #[br] good morning or good night #[br] #[span(class="counter") 40 times] #[br] in these #[br] #[span(class="counter") 27 minutes.]
+
+  main(class="container" id="container")
     div(id="mymap")
     div(class="controls")
       //- toggle adapted from https://codepen.io/theawesomecoder61/pen/nigEq
