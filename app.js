@@ -93,7 +93,8 @@ io.on("connect", (socket) => {
     // api finds phrases in more than just the tweet text; exclude those
     if (!morningre.test(tweet.text) && !nightre.test(tweet.text)) return;
 
-    let eventtype = (morningre.test(tweet.text)) ? 1 : 0; // 0 for night, 1 for morning
+    // let eventType = (morningre.test(tweet.text)) ? 1 : 0; // 0 for night, 1 for morning
+    let eventType = (morningre.test(tweet.text)) ? 0 : 1; // 0 for morning, 1 for night
 
     let coords = tweet.coordinates; // tweet coordinates
     let place = tweet.place; // tweet place, returns bounding box of coords
@@ -105,7 +106,7 @@ io.on("connect", (socket) => {
       console.log(tweet.text);
       console.log("coords", latlng);
       console.log();
-      socket.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
+      socket.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventType": eventType });
     } else if (place) {
       let bbox = place.bounding_box.coordinates[0];
       latlng["lng"] = (bbox[0][0] + bbox[2][0]) * 0.5;
@@ -113,7 +114,7 @@ io.on("connect", (socket) => {
       console.log(tweet.text);
       console.log("place", latlng);
       console.log();
-      socket.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
+      socket.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventType": eventType });
     }
     // } else {
 
@@ -144,7 +145,7 @@ io.on("connect", (socket) => {
     //         console.log("location", userloc, latlng);
     //         console.log(tweet.text);
     //         console.log();
-    //         io.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventtype": eventtype });
+    //         io.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventType": eventType });
     //       } else {
     //         console.log("No results found for:", userloc);
     //       }
