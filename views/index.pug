@@ -8,19 +8,14 @@ block content
       ul
         li: a(href="/") Map
         li: a(href="/about") About
-    p(class="stats") #[span(id="duration") Within this minute], #[br] the world has been wished #[br] #[br] #[span(class="morning") good morning] #[br] #[span(class="counter") 0 times] #[br] #[br] and #[br] #[br] #[span(class="night") good night] #[br] #[span(class="counter") 0 times]
+    p(class="stats") #[span(id="duration") Within this minute], #[br] the world has been wished #[br] #[br] #[span(class="morning") good morning] #[br] #[span(class="counter morning") 0 times] #[br] #[br] and #[br] #[br] #[span(class="night") good night] #[br] #[span(class="counter night") 0 times]
+    div(class="logContainer")
+      button(type="button" id="logToggle") Show log
+      div(class="log" id="log")
 
   main(class="container" id="container")
     div(id="mymap")
     div(class="controls")
-      //- toggle adapted from https://codepen.io/theawesomecoder61/pen/nigEq
-      div(class="pinsDuration")
-        input(type="radio" name="pinsDuration" id="perpetual" value="perpetual" class="toggle-radio")
-        input(type="radio" name="pinsDuration" id="ephemeral" value="ephemeral" class="toggle-radio" checked)
-        div(class="toggle")
-          label(for="perpetual" class="toggle-label") Perpetual
-          span(class="toggle-icon")
-          label(for="ephemeral" class="toggle-label") Ephemeral
-      p(class="alert" id="alert")
   
   script(src="/js/scripts.js")
+  script(src="/js/map.js")

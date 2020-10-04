@@ -92,7 +92,6 @@ a {
   text-align: right;
   line-height: .8;
   display: inline-block;
-  margin-bottom: .5em;
 }
 
 .container {
@@ -168,68 +167,5 @@ a {
   z-index: 400;
 }
 
-/* TOGGLE */
+/* LOG */
 
-.toggle {
-  width: max-content;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  /* background-color: rgba(255,255,255,.2); */
-  background-image: linear-gradient(to right, #f6bb42, #ff8e6e, #ff77a9, #be7ed6, #4a89dc);
-  border-radius: 25px;
-}
-
-.toggle-radio {
-  display: none;
-}
-
-.toggle-icon::before {
-  display: block;
-  width: 1em;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  text-align: center;
-  color: #fff;
-}
-
-#ephemeral:checked ~ .toggle .toggle-icon::before {
-  content: "\f043";
-}
-
-#perpetual:checked ~ .toggle .toggle-icon::before {
-  content: "\f773";
-}
-
-.toggle-label {
-  cursor: pointer;
-  color: rgba(255,255,255,.6);
-  transition: all 0.2s ease;
-  padding: 1em;
-}
-
-#perpetual:checked ~ .toggle label[for="perpetual"] {
-  color: #fff;
-}
-
-#ephemeral:checked ~ .toggle label[for="ephemeral"] {
-  color: #fff;
-}
-
-/* ALERT */
-
-.alert {
-  width: max-content;
-  margin-left: .75em;
-  padding: 0;
-  background-color: rgba(0,0,0,.35);
-  color: #fff;
-  border-radius: 5px;
-  /* opacity: 0; */
-  transition: opacity 1s ease-in-out;
-}
-
-.alert.visible {
-  opacity: 1;
-  padding: .25em;
-}
