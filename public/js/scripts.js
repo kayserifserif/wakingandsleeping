@@ -1,4 +1,6 @@
 const token = "pk.eyJ1IjoiYm9va3dvcm1naXJsOTEwIiwiYSI6ImNrYXR2Z2o3azBrbWIyeHB0ZnJxa2Zqc3kifQ.8FZb1SBrTX55wr11JWNxKw";
+const morning = "#d54200";
+const night = "#539AF9";
 
 let timeOpened = performance.now();
 let instancesMorning = 0;
@@ -6,54 +8,16 @@ let instancesNight = 0;
 let counters = document.getElementsByClassName("counter");
 let duration = document.getElementById("duration");
 
-let lat = 0;
-let lon = 0;
-let isDay = false;
-function setDayOrNight() {
-  let now = new Date();
-  let times = SunCalc.getTimes(now, lat, lon);
-  let sunrise = times.sunrise;
-  let sunset = times.sunset;
-  let themeLink = document.getElementById("themeLink");
-  if (now > sunrise && now < sunset) {
-    isDay = true;
-    themeLink.href = "/css/day.css";
-  } else {
-    isDay = false;
-    themeLink.href = "/css/night.css";
-    // isDay = true;
-    // themeLink.href = "/css/day.css";
-  }
-  operateMap();
-}
-// ask for geolocation
-if ("geolocation" in navigator) {
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      console.log(position);
-      lat = position.coords.latitude;
-      lon = position.coords.longitude;
-      setDayOrNight();
-    },
-    (error) => {
-      console.log(error);
-      setDayOrNight();
-    },
-    {
-      enableHighAccuracy: false,
-      timeout: 5000, // 5s
-      maximumAge: 300000 // 5min
-    });
-}
+let theme = 1;
 
-function operateMap() {
+(function runMap() {
 
   var mymap = L.map('mymap', {
     zoomControl: false,
     scrollWheelZoom: false
   }).setView([24.870956, 15.1004003], 13);
 
-  let style_id = (isDay) ? "light-v10" : "dark-v10";
+  let style_id = (theme == 1) ? "light-v10" : "dark-v10";
   L.tileLayer('https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/{tilesize}/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, \
       <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \
@@ -101,7 +65,7 @@ function operateMap() {
     // console.log(tweet.latlng);
     // console.log(tweet.eventtype);
 
-    var eventcolor = (tweet.eventtype) ? "#D9A232" : "#4A89DC"; // yellow and blue
+    var eventcolor = (tweet.eventtype) ? morning : night; // colors
     let popupOptions = {
       maxWidth: 200,
       maxHeight: 36,
@@ -130,10 +94,9 @@ function operateMap() {
       }
     })();
   });
-}
+})();
 
 function incrementInstances(eventtype) {
-  // instances++;
   if (eventtype == 1) {
     instancesMorning++;
   } else {
@@ -155,7 +118,7 @@ function incrementInstances(eventtype) {
   counters[1].textContent = nightStr;
 }
 
-function updateDuration() {
+(function updateDuration() {
   let now = performance.now();
   let nowInMinutes = now / 1000 / 60;
   let hours = Math.floor(nowInMinutes / 60);
@@ -174,12 +137,12 @@ function updateDuration() {
     if (hours > 0) {
       if (hours == 1) {
         durationStr = hours + " hour";
-        if (minutes != 0) {
+        if (minutes > 0) {
           durationStr += " and ";
         }
       } else {
         durationStr += hours + " hours";
-        if (minutes != 0) {
+        if (minutes > 0) {
           durationStr += " and ";
         }
       }
@@ -196,6 +159,4 @@ function updateDuration() {
   duration.textContent = durationStr;
 
   setTimeout(updateDuration, 1000);
-}
-
-updateDuration();
+})();
