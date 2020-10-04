@@ -1,10 +1,10 @@
 :root {
   /* https://blog.jim-nielsen.com/2019/generating-shades-of-color-using-css-variables/ */
-  --morning: #D9A232;
-  --morning-rgb: 217, 162, 50;
+  --morning: #d54200;
+  --morning-rgb: 213, 66, 0;
   --night: #539AF9;
   --night-rgb: 83, 154, 249;
-  --mid: #EA79B7;
+  --mid: #d42183;
 }
 
 *,
@@ -28,7 +28,7 @@ body {
   grid-template-columns: 100%;
   grid-template-rows: auto 100%;
 }
-  @media (min-width: 1000px) {
+  @media (min-width: 800px) {
     body {
       grid-template-columns: 30% 70%;
       grid-template-rows: 100%;
@@ -104,7 +104,7 @@ a {
   grid-column: 1;
   grid-row: 2;
 }
-  @media (min-width: 1000px) {
+  @media (min-width: 800px) {
     .container {
       grid-column: 2;
       grid-row: 1;
@@ -221,7 +221,7 @@ a {
 .alert {
   width: max-content;
   margin-left: .75em;
-  padding: .25em;
+  padding: 0;
   background-color: rgba(0,0,0,.35);
   color: #fff;
   border-radius: 5px;
@@ -231,4 +231,5 @@ a {
 
 .alert.visible {
   opacity: 1;
+  padding: .25em;
 }
