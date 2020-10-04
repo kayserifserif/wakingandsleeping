@@ -78,8 +78,13 @@ let theme = 0;
     logEntry.append(entryLoc);
     let entryText = tweet.text;
     logEntry.append(entryText);
-    log.append(logEntry);
-    log.scrollTop = log.scrollHeight;
+    log.prepend(logEntry);
+    // log.scrollBottom = log.scrollHeight;
+    log.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    })
   });
 })();
 
