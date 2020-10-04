@@ -69,10 +69,16 @@ a {
 }
 
 .header-withlog {
-  height: 100vh;
+  height: 90vh;
   grid-template-rows: auto 1fr;
   align-content: center;
 }
+	
+	@media (min-width: 800px) {
+		.header-withlog {
+			height: 100vh;
+		}
+	}
 
 .info {
   grid-row: 1;
