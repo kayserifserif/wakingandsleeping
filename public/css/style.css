@@ -23,6 +23,7 @@ body {
   font-family: "Harmattan", sans-serif;
   background-color: var(--bg);
   color: var(--text);
+  font-size: 1.1em;
   line-height: 1.25;
   display: grid;
   grid-template-columns: 100%;
@@ -49,10 +50,28 @@ a {
   color: var(--mid);
 }
 
+.morning {
+  color: var(--morning);
+}
+
+.night {
+  color: var(--night);
+}
+
 /* HEADER */
 
 .header {
+  height: auto;
+  display: grid;
+  grid-template-rows: auto;
+  padding: 2em;
   text-align: center;
+}
+
+.header-withlog {
+  height: 100vh;
+  grid-template-rows: auto 1fr;
+  align-content: center;
 }
 
 .info {
@@ -62,21 +81,6 @@ a {
 .title {
   font-size: 3em;
   line-height: 1;
-}
-
-.morning {
-  color: var(--morning);
-}
-
-.night {
-  color: var(--night);
-}
-
-.header {
-  height: 100vh;
-  padding: 2em;
-  display: grid;
-  grid-template-rows: auto 1fr;
 }
 
 .nav ul {
@@ -106,9 +110,6 @@ a {
 .container {
   height: 100%;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
   grid-column: 1;
   grid-row: 2;
 }
@@ -120,13 +121,33 @@ a {
     }
   }
 
+.container-withmap {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
 .container-text {
   max-width: 50em;
   padding: 2em;
 }
 
-.lead {
+.article-lead {
   font-size: 2em;
+}
+
+.article-blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: .25em solid #dfe2e5;
+}
+
+.article-figure img {
+  max-width: 100%;
+}
+
+.article-figure figcaption {
+  text-align: center;
 }
 
 /* MAP */
@@ -187,8 +208,7 @@ a {
 .log {
   grid-row: 2;
   overflow-y: scroll;
-  display: flex;
-  flex-direction: column-reverse;
+  margin-top: 1em;
 }
 
 .log:empty::before {
@@ -204,7 +224,7 @@ a {
   text-decoration: none;
 }
 
-.logEntry:not(:first-of-type) {
+.logEntry:not(:last-of-type) {
   border-bottom: 2px solid #CAD2D3;
 }
 

@@ -2,7 +2,7 @@ extends layout
 
 block content
 
-  header(class="header")
+  header(class="header header-withlog")
     div(class="info")
       h1(class="title") Waking and Sleeping
       nav(class="nav")
@@ -12,7 +12,7 @@ block content
       p(class="stats") #[span(id="duration") Within this minute], #[br] the world has been wished #[br] #[br] #[span(class="morning") good morning] #[br] #[span(class="counter morning") 0 times] #[br] #[br] and #[br] #[br] #[span(class="night") good night] #[br] #[span(class="counter night") 0 times]
     div(class="log" id="log")
 
-  main(class="container")
+  main(class="container container-withmap")
     div(id="mymap")
     div(class="controls")
   
