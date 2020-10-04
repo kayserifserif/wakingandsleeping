@@ -20,7 +20,7 @@ html, body {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Harmattan", sans-serif;
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.25;
@@ -49,6 +49,16 @@ a {
   color: var(--mid);
 }
 
+/* HEADER */
+
+.header {
+  text-align: center;
+}
+
+.info {
+  grid-row: 1;
+}
+
 .title {
   font-size: 3em;
   line-height: 1;
@@ -63,11 +73,10 @@ a {
 }
 
 .header {
+  height: 100vh;
   padding: 2em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
 .nav ul {
@@ -126,6 +135,11 @@ a {
   height: 100%;
 }
 
+.leaflet-container {
+  font-family: "Harmattan", sans-serif;
+  font-size: 1em;
+}
+
 .leaflet-popup-content-wrapper {
   background: none;
   /* color: #fff; */
@@ -136,6 +150,7 @@ a {
 .leaflet-popup-content {
   margin: 0;
   text-align: center;
+  line-height: 1;
 }
 
 .leaflet-popup:hover .leaflet-popup-content {
@@ -169,3 +184,35 @@ a {
 
 /* LOG */
 
+.log {
+  grid-row: 2;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.log:empty::before {
+  content: "Listening for a first Tweet…";
+  color: #657786;
+}
+
+.logEntry {
+  display: block;
+  padding: 1em;
+  text-align: left;
+  transition: .3s ease background-color;
+  text-decoration: none;
+}
+
+.logEntry:not(:first-of-type) {
+  border-bottom: 2px solid #CAD2D3;
+}
+
+.logEntry:hover {
+  background-color: rgba(0,0,0,.03);
+}
+
+.entryLoc {
+  display: block;
+  color: #657786;
+}

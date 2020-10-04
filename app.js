@@ -93,29 +93,39 @@ io.on("connect", (socket) => {
     // api finds phrases in more than just the tweet text; exclude those
     if (!morningre.test(tweet.text) && !nightre.test(tweet.text)) return;
 
-    // let eventType = (morningre.test(tweet.text)) ? 1 : 0; // 0 for night, 1 for morning
+    // console.log(tweet);
+    // console.log();
+
+    let text = (tweet.hasOwnProperty("extended_tweet")) ? tweet.extended_tweet.full_text : tweet.text;
     let eventType = (morningre.test(tweet.text)) ? 0 : 1; // 0 for morning, 1 for night
-
-    let coords = tweet.coordinates; // tweet coordinates
-    let place = tweet.place; // tweet place, returns bounding box of coords
     let latlng = {};
-
-    if (coords) {
-      latlng["lng"] = coords.coordinates[0];
-      latlng["lat"] = coords.coordinates[1];
-      console.log(tweet.text);
-      console.log("coords", latlng);
-      console.log();
-      socket.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventType": eventType });
-    } else if (place) {
-      let bbox = place.bounding_box.coordinates[0];
+    let place = "";
+    if (tweet.place) {
+      let bbox = tweet.place.bounding_box.coordinates[0];
       latlng["lng"] = (bbox[0][0] + bbox[2][0]) * 0.5;
       latlng["lat"] = (bbox[0][1] + bbox[2][1]) * 0.5;
+      place = tweet.place.full_name;
       console.log(tweet.text);
       console.log("place", latlng);
       console.log();
-      socket.emit("tweet", {"latlng": latlng, "text": tweet.text, "eventType": eventType });
+    } else if (tweet.coordinates) {
+      latlng["lng"] = tweet.coordinates.coordinates[0];
+      latlng["lat"] = tweet.coordinates.coordinates[1];
+      console.log(tweet.text);
+      console.log("coords", latlng);
+      console.log();
     }
+
+    let tweetObj = {
+      "text": text,
+      "eventType": eventType,
+      "latlng": latlng,
+      "place": place,
+      "url": "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str
+    };
+
+    socket.emit("tweet", tweetObj)
+
     // } else {
 
     //   let userloc = tweet.user.location;

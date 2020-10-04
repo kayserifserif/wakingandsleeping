@@ -3,19 +3,18 @@ extends layout
 block content
 
   header(class="header")
-    h1(class="title") Waking and Sleeping
-    nav(class="nav")
-      ul
-        li: a(href="/") Map
-        li: a(href="/about") About
-    p(class="stats") #[span(id="duration") Within this minute], #[br] the world has been wished #[br] #[br] #[span(class="morning") good morning] #[br] #[span(class="counter morning") 0 times] #[br] #[br] and #[br] #[br] #[span(class="night") good night] #[br] #[span(class="counter night") 0 times]
-    div(class="logContainer")
-      button(type="button" id="logToggle") Show log
-      div(class="log" id="log")
+    div(class="info")
+      h1(class="title") Waking and Sleeping
+      nav(class="nav")
+        ul
+          li: a(href="/") Map
+          li: a(href="/about") About
+      p(class="stats") #[span(id="duration") Within this minute], #[br] the world has been wished #[br] #[br] #[span(class="morning") good morning] #[br] #[span(class="counter morning") 0 times] #[br] #[br] and #[br] #[br] #[span(class="night") good night] #[br] #[span(class="counter night") 0 times]
+    div(class="log" id="log")
 
-  main(class="container" id="container")
+  main(class="container")
     div(id="mymap")
     div(class="controls")
   
-  script(src="/js/scripts.js")
-  script(src="/js/map.js")
+  script(src="/js/page.js")
+  script(src="/js/tweets.js")

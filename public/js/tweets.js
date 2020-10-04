@@ -2,12 +2,17 @@ const token = "pk.eyJ1IjoiYm9va3dvcm1naXJsOTEwIiwiYSI6ImNrYXR2Z2o3azBrbWIyeHB0Zn
 const morning = "#d54200";
 const night = "#539AF9";
 
+const counters = document.getElementsByClassName("counter");
+const duration = document.getElementById("duration");
+const logToggle = document.getElementById("logToggle");
+const log = document.getElementById("log");
+
 let timeOpened = performance.now();
 let instancesByType = [0, 0]; // morning, night
-let counters = document.getElementsByClassName("counter");
-let duration = document.getElementById("duration");
 
 let theme = 0;
+
+// TWEETS
 
 (function runMap() {
 
@@ -33,6 +38,7 @@ let theme = 0;
   socket.on('tweet', function (tweet) {
 
     incrementInstances(tweet.eventType);
+    // console.log(tweet);
     // console.log(tweet.text);
     // console.log(tweet.latlng);
     // console.log(tweet.eventType);
@@ -55,9 +61,25 @@ let theme = 0;
       .addTo(mymap)
       .bindPopup(tweet.text, popupOptions)
       .openPopup();
-    (async () => {
-      await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-    })();
+
+    let logEntry = document.createElement("a");
+    logEntry.href = tweet.url;
+    logEntry.classList.add("logEntry");
+    logEntry.classList.add((tweet.eventType == 0) ? "morning" : "night");
+    let entryLoc = document.createElement("span");
+    entryLoc.classList.add("entryLoc");
+    if (tweet.hasOwnProperty("place")) {
+      entryLoc.classList.add("place");
+      entryLoc.textContent = tweet.place;
+    } else {
+      entryLoc.classList.add("coords");
+      entryLoc.textContent = tweet.latlng["lat"].toFixed(2) + "," + tweet.latlng["lng"].toFixed(2);
+    }
+    logEntry.append(entryLoc);
+    let entryText = tweet.text;
+    logEntry.append(entryText);
+    log.append(logEntry);
+    log.scrollTop = log.scrollHeight;
   });
 })();
 
