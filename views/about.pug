@@ -1,70 +1,75 @@
-extends layout
+doctype html
 
-block content
+html
 
-  header(class="header")
-    div(class="info")
-      h1(class="title") Waking and Sleeping
-      nav(class="nav")
+  head
+
+    include includes/head.pug
+    title Waking and Sleeping &ndash; About
+    meta(property="og:title" content="Waking and Sleeping – About")
+    meta(property="og:url" content="https://wakingandsleeping.glitch.me/about")
+
+  body
+
+    header(class="header")
+      div(class="info")
+        h1(class="title") Waking and Sleeping
+        nav(class="nav")
+          ul
+            li: a(href="/") Map
+            li: a(href="/about") About
+
+    main(class="container" id="container")
+      div(class="container-text")
+
+        p(class="article-lead") &ldquo;Good morning&rdquo; and &ldquo;good night&rdquo; tweets, mapped in real-time. A project by #[a(href="https://whykatherine.github.io") Katherine Yang], open-sourced on #[a(href="https://github.com/whykatherine/wakingandsleeping") GitHub].
+
+        p Created during an intensely virtual, remote, and global time, this project is a reflection on world interconnectedness and our daily waves and flares of activity and wakedness across the globe. The hope is that you could open the webpage at any time during your day/night and see where in the world people are waking up and going to sleep. Inspired largely by Lin-Manuel Miranda&rsquo;s series of &ldquo;gmorning, gnight&rdquo; tweets and his book with Jonny Sun, #[a(href="https://bookshop.org/books/gmorning-gnight-little-pep-talks-for-me-you/9781984854278") Gmorning, Gnight!: Little Pep Talks for Me &amp; You] :)
+
+        figure(class="article-figure")
+          img(src="https://cdn.shopify.com/s/files/1/0953/4528/products/MANUEL_800x.jpg?v=1564117918" alt="Photo of a spread in Gmorning, Gnight!")
+          figcaption Photo of a spread in Gmorning, Gnight! #[a(href="https://shop.nypl.org/products/gmorning-gnight-little-pep-talks-for-me-you") The New York Public Library Shop]
+
+        h2 On geotagging
+
+        p This project relies on tweets that are geotagged, either with exact coordinates or with a &ldquo;place&rdquo;. Coordinates, the most granular location type (as specific as a street intersection), are given by the phone&rsquo;s GPS as the place where someone is when they send the tweet. Place, a coarser location type, is a named location (business, city, country) around someone that they can choose before sending the tweet.
+
+        p Geotagging is an incredible feature for researchers and data visualisers (not to mention, of course, business and advertisers). The &ldquo;big data&rdquo; method of data collection utilised prevalently on so many platforms&mdash;&ldquo;collect anything and everything that might be remotely insightful&rdquo;&mdash;allows a researcher to see detailed geospatial trends that are happening *right this moment* with just a few lines of code, whereas a pre-internet researcher may have had to ride on a bicycle around a region for years to be able to amass a large-ish amount of data.
+
+        p However, while just over 3.5% of tweets were geotagged in 2012 (three years after geotagging was introduced on Twitter), that percentage has dropped steadily to around 1.5% of tweets since 2017 (#[a(href="https://www.forbes.com/sites/kalevleetaru/2019/03/04/visualizing-seven-years-of-twitters-evolution-2012-2018/#404c0cb07ccf") Kalev Leetaru, Forbes]&mdash;fascinating charts, by the way, if you&rsquo;re interested!). Our decreasing trust and interest in geotagging hints at the deep concerns we have about privacy today. There&rsquo;s a lack of transparency (we don&rsquo;t know when our location is being collected, how often, and how detailed) and a lack of agency (invisible defaults and slippery opt-outs instead of meaningful opt-ins can overwhelm and blindside). 
+
+        figure(class="article-figure")
+          img(class="article-img" src="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fkalevleetaru%2Ffiles%2F2019%2F03%2F2019-exploring-twitter-2012-2018-percent-geotagged-tweets-total-1200x620.jpg" alt="Percent of tweets in the Twitter 1% stream that were geotagged (GPS + Place)")
+          figcaption Percent of tweets in the Twitter 1% stream that were geotagged (GPS + Place). #[a(href="https://www.forbes.com/sites/kalevleetaru/2019/03/04/visualizing-seven-years-of-twitters-evolution-2012-2018/#404c0cb07ccf") Kalev Leetaru, Forbes]
+
+        p Is this project an ethical use of the data I&rsquo;m able to access through Twitter? Without knowing whether all of the people are aware of and consenting to being geotagged (and rather suspecting many aren&rsquo;t), it&rsquo;s hard to say yes, but hopefully only showing truncated tweets without any personally revealing information provides enough anonymity for this to pass for the moment.
+
+        h2 Some limitations
+
+        p Owing to the limitations of both the standard plan and Twitter&rsquo;s own data parsing, there are a couple major factors that make the project less comprehensive and accurate than hoped.
+
+        ul: li Languages
+
+        blockquote(class="article-blockquote") Non-space separated languages, such as CJK are currently unsupported. &mdash;#[a(href="https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters") Standard stream parameters]
+
+        p This project uses Twitter&rsquo;s Streaming API, with the &ldquo;statuses/filter&rdquo; endpoint. This means that a connection is constantly open between the app and Twitter, through which Twitter sends tweets in realtime that match with the keywords I specify in the &ldquo;track&rdquo; parameter. The explanation hints at spaces being a challenging technical hurdle&mdash;Twitter&rsquo;s algorithm for breaking a tweet down into keywords doesn&rsquo;t know what to do with a tweet written in languages like Chinese, Japanese, or Korean, which may lack word-separating spaces. Unfortunately, by multiple metrics, this leaves out a large population of people and internet users. On total number of speakers: combined varieties of Chinese bring it to 1st on the list, Japanese is 13th, and Korean is 22nd (#[a(href="https://en.wikipedia.org/wiki/List_of_languages_by_total_number_of_speakers#Ethnologue_(2019,_23rd_edition)") 2019 Ethnologue]). On languages on the internet: Chinese is 2nd and Japanese is 8th (#[a(href="https://www.statista.com/statistics/262946/share-of-the-most-common-languages-on-the-internet/") Statista]). On languages on Twitter: Japanese is 2nd, Thai (another non-space separated language) is 9th, and Korean is 10th (#[a(href="https://mashable.com/2013/12/17/twitter-popular-languages/") Statista via Mashable]).
+
+        figure(class="article-figure")
+          img(src="https://mondrian.mashable.com/wp-content%252Fuploads%252F2013%252F12%252F131217_Twitter_Sprachen_Mashable_n.jpg%252Ffull-fit-in__1200x2000.jpg" alt="Chart: Only 34% of All Tweets are in English")
+          figcaption Chart: Only 34% of All Tweets are in English. #[a(href="https://mashable.com/2013/12/17/twitter-popular-languages/") Statista via Mashable]
+
+        ul: li Exact matching
+
+        blockquote(class="article-blockquote") Exact matching of phrases (equivalent to quoted phrases in most search engines) is not supported. &mdash;#[a(href="https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters") Standard stream parameters]
+
+        p Twitter matches a tweet as long as the words in one of the key phrases exists in the tweet, regardless of order. This means that a key phrase &ldquo;good night&rdquo; might match with a tweet posted in the morning that says, &ldquo;last night was good&rdquo;, resulting in some confusing or self-contradicting points in the viz.
+
+        h2 Resulting musings
+
         ul
-          li
-            a(href="/") Map
-          li
-            a(href="/about") About
 
-  main(class="container" id="container")
-    div(class="container-text")
+          li By looking at geolocation, the project is inherently biased towards people who are using their phones to tweet&mdash;the GPS capability of the phone makes it much easier, and in fact, I don&rsquo;t know if you can geotag your tweet from your laptop?
 
-      p(class="article-lead") &ldquo;Good morning&rdquo; and &ldquo;good night&rdquo; tweets, mapped in real-time. A project by #[a(href="https://whykatherine.github.io") Katherine Yang], open-sourced on #[a(href="https://github.com/whykatherine/wakingandsleeping") GitHub].
+          li I haven&rsquo;t looked too much into data/research for this, but Twitter seemed to me to have developed from a semi-private journal for one&rsquo;s everyday happenings into a constant deluge of a whole world&rsquo;s very-public-facing declarations. These simple &ldquo;good morning&rdquo;s and &ldquo;good night&rdquo;s are a different side of modern Twitter I don&rsquo;t experience much on my feed.
 
-      p Created during an intensely virtual, remote, and global time, this project is a reflection on world interconnectedness and our daily waves and flares of activity and wakedness across the globe. The hope is that you could open the webpage at any time during your day/night and see where in the world people are waking up and going to sleep. Inspired largely by Lin-Manuel Miranda&rsquo;s series of &ldquo;gmorning, gnight&rdquo; tweets and his book with Jonny Sun, #[a(href="https://bookshop.org/books/gmorning-gnight-little-pep-talks-for-me-you/9781984854278") Gmorning, Gnight!: Little Pep Talks for Me &amp; You] :)
-
-      figure(class="article-figure")
-        img(src="https://cdn.shopify.com/s/files/1/0953/4528/products/MANUEL_800x.jpg?v=1564117918" alt="Photo of a spread in Gmorning, Gnight!")
-        figcaption Photo of a spread in Gmorning, Gnight! #[a(href="https://shop.nypl.org/products/gmorning-gnight-little-pep-talks-for-me-you") The New York Public Library Shop]
-
-      h2 On geotagging
-
-      p This project relies on tweets that are geotagged, either with exact coordinates or with a &ldquo;place&rdquo;. Coordinates, the most granular location type (as specific as a street intersection), are given by the phone&rsquo;s GPS as the place where someone is when they send the tweet. Place, a coarser location type, is a named location (business, city, country) around someone that they can choose before sending the tweet.
-
-      p Geotagging is an incredible feature for researchers and data visualisers (not to mention, of course, business and advertisers). The &ldquo;big data&rdquo; method of data collection utilised prevalently on so many platforms&mdash;&ldquo;collect anything and everything that might be remotely insightful&rdquo;&mdash;allows a researcher to see detailed geospatial trends that are happening *right this moment* with just a few lines of code, whereas a pre-internet researcher may have had to ride on a bicycle around a region for years to be able to amass a large-ish amount of data.
-
-      p However, while just over 3.5% of tweets were geotagged in 2012 (three years after geotagging was introduced on Twitter), that percentage has dropped steadily to around 1.5% of tweets since 2017 (#[a(href="https://www.forbes.com/sites/kalevleetaru/2019/03/04/visualizing-seven-years-of-twitters-evolution-2012-2018/#404c0cb07ccf") Kalev Leetaru, Forbes]&mdash;fascinating charts, by the way, if you&rsquo;re interested!). Our decreasing trust and interest in geotagging hints at the deep concerns we have about privacy today. There&rsquo;s a lack of transparency (we don&rsquo;t know when our location is being collected, how often, and how detailed) and a lack of agency (invisible defaults and slippery opt-outs instead of meaningful opt-ins can overwhelm and blindside). 
-
-      figure(class="article-figure")
-        img(class="article-img" src="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fkalevleetaru%2Ffiles%2F2019%2F03%2F2019-exploring-twitter-2012-2018-percent-geotagged-tweets-total-1200x620.jpg" alt="Percent of tweets in the Twitter 1% stream that were geotagged (GPS + Place)")
-        figcaption Percent of tweets in the Twitter 1% stream that were geotagged (GPS + Place). #[a(href="https://www.forbes.com/sites/kalevleetaru/2019/03/04/visualizing-seven-years-of-twitters-evolution-2012-2018/#404c0cb07ccf") Kalev Leetaru, Forbes]
-
-      p Is this project an ethical use of the data I&rsquo;m able to access through Twitter? Without knowing whether all of the people are aware of and consenting to being geotagged (and rather suspecting many aren&rsquo;t), it&rsquo;s hard to say yes, but hopefully only showing truncated tweets without any personally revealing information provides enough anonymity for this to pass for the moment.
-
-      h2 Some limitations
-
-      p Owing to the limitations of both the standard plan and Twitter&rsquo;s own data parsing, there are a couple major factors that make the project less comprehensive and accurate than hoped.
-
-      ul
-        li Languages
-
-      blockquote(class="article-blockquote") Non-space separated languages, such as CJK are currently unsupported. &mdash;#[a(href="https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters") Standard stream parameters]
-
-      p This project uses Twitter&rsquo;s Streaming API, with the &ldquo;statuses/filter&rdquo; endpoint. This means that a connection is constantly open between the app and Twitter, through which Twitter sends tweets in realtime that match with the keywords I specify in the &ldquo;track&rdquo; parameter. The explanation hints at spaces being a challenging technical hurdle&mdash;Twitter&rsquo;s algorithm for breaking a tweet down into keywords doesn&rsquo;t know what to do with a tweet written in languages like Chinese, Japanese, or Korean, which may lack word-separating spaces. Unfortunately, by multiple metrics, this leaves out a large population of people and internet users. On total number of speakers: combined varieties of Chinese bring it to 1st on the list, Japanese is 13th, and Korean is 22nd (#[a(href="https://en.wikipedia.org/wiki/List_of_languages_by_total_number_of_speakers#Ethnologue_(2019,_23rd_edition)") 2019 Ethnologue]). On languages on the internet: Chinese is 2nd and Japanese is 8th (#[a(href="https://www.statista.com/statistics/262946/share-of-the-most-common-languages-on-the-internet/") Statista]). On languages on Twitter: Japanese is 2nd, Thai (another non-space separated language) is 9th, and Korean is 10th (#[a(href="https://mashable.com/2013/12/17/twitter-popular-languages/") Statista via Mashable]).
-
-      figure(class="article-figure")
-        img(src="https://mondrian.mashable.com/wp-content%252Fuploads%252F2013%252F12%252F131217_Twitter_Sprachen_Mashable_n.jpg%252Ffull-fit-in__1200x2000.jpg" alt="Chart: Only 34% of All Tweets are in English")
-        figcaption Chart: Only 34% of All Tweets are in English. #[a(href="https://mashable.com/2013/12/17/twitter-popular-languages/") Statista via Mashable]
-
-      ul
-        li Exact matching
-
-      blockquote(class="article-blockquote") Exact matching of phrases (equivalent to quoted phrases in most search engines) is not supported. &mdash;#[a(href="https://developer.twitter.com/en/docs/tweets/filter-realtime/guides/basic-stream-parameters") Standard stream parameters]
-
-      p Twitter matches a tweet as long as the words in one of the key phrases exists in the tweet, regardless of order. This means that a key phrase &ldquo;good night&rdquo; might match with a tweet posted in the morning that says, &ldquo;last night was good&rdquo;, resulting in some confusing or self-contradicting points in the viz.
-
-      h2 Resulting musings
-
-      ul
-
-        li By looking at geolocation, the project is inherently biased towards people who are using their phones to tweet&mdash;the GPS capability of the phone makes it much easier, and in fact, I don&rsquo;t know if you can geotag your tweet from your laptop?
-
-        li I haven&rsquo;t looked too much into data/research for this, but Twitter seemed to me to have developed from a semi-private journal for one&rsquo;s everyday happenings into a constant deluge of a whole world&rsquo;s very-public-facing declarations. These simple &ldquo;good morning&rdquo;s and &ldquo;good night&rdquo;s are a different side of modern Twitter I don&rsquo;t experience much on my feed.
-
-        li Unlike a lot of time-based visualisations with defined time periods that you can scrub through to see as much at once as you want to, working with real-time data means you can only see the data that&rsquo;s coming in right now, which can be not very much at all. Waiting for data to come to you is either frustratingly limiting or edifyingly calming.
+          li Unlike a lot of time-based visualisations with defined time periods that you can scrub through to see as much at once as you want to, working with real-time data means you can only see the data that&rsquo;s coming in right now, which can be not very much at all. Waiting for data to come to you is either frustratingly limiting or edifyingly calming.

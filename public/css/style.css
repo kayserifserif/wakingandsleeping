@@ -36,6 +36,11 @@ body {
     }
   }
 
+.error {
+  display: block;
+  padding: 2em;
+}
+
 h1,
 h2,
 h3,
