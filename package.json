@@ -22,5 +22,8 @@
     "socket.io": "^2.4.0",
     "twit": "^2.2.11",
     "xmlhttprequest-ssl": ">=1.6.2"
+  },
+  "devDependencies": {
+    "normalize-url": ">=4.5.1"
   }
 }
