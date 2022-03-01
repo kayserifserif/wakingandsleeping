@@ -16,7 +16,7 @@
     durationStr += `${minutes} minutes`;
   }
 
-  duration.textContent = durationStr;
+  document.getElementById("duration").textContent = durationStr;
 
   setTimeout(updateDuration, 1000);
 })();
