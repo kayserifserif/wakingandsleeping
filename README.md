@@ -2,6 +2,8 @@
 
 "Good morning" and "good night" tweets, mapped in real-time.
 
+![Red dots scattered across a world map, representing Tweets containing the phrase "good morning" in different languages. A feed of the Tweets are listed in the sidebar.](public/img/Screenshot%202020-10-05%20at%2010.48%20PM.png)
+
 Contents:
 1. [Background](#background)
 2. [Development](#development)
