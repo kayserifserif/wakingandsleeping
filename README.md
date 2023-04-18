@@ -1,5 +1,11 @@
 # wakingandsleeping
 
+[20230414]: it was fun while it lasted
+
+![An email from Twitter stating that my app has been suspended from accessing the Twitter API.](https://raw.githubusercontent.com/whykatherine/wakingandsleeping/main/rip.jpg)
+
+---
+
 "Good morning" and "good night" tweets, mapped in real-time.
 
 ![Red dots scattered across a world map, representing Tweets containing the phrase "good morning" in different languages. A feed of the Tweets are listed in the sidebar.](public/img/Screenshot%202020-10-05%20at%2010.48%20PM.png)
