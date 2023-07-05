@@ -2,7 +2,7 @@
   "name": "wakingandsleeping",
   "version": "1.0.0",
   "description": "Tweets posted before going to bed or after waking up, mapped.",
-  "repository": "whykatherine/wakingandsleeping",
+  "repository": "kayserifserif/wakingandsleeping",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
