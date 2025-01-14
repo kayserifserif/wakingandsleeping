@@ -18,7 +18,7 @@
     "http-errors": "^1.7.3",
     "morgan": "^1.10.0",
     "path": "^0.12.7",
-    "pug": "^3.0.1",
+    "pug": "^3.0.3",
     "socket.io": "^2.5.0",
     "twit": "^2.2.11",
     "xmlhttprequest-ssl": ">=1.6.2"
